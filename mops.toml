@@ -1,0 +1,4 @@
+[dependencies]
+base = "0.9.8"
+stablebuffer = "https://github.com/canscale/StableBuffer#v1.2.0"
+map = "https://github.com/ZhenyaUsenko/motoko-hash-map#v8.1.0"
