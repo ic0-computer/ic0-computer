@@ -28,6 +28,10 @@ package-lock.json
 # Ignore macOS system files
 .DS_Store
 
+# IC related files
 .dfx/
 .mops/
 canister_ids.json
+
+# Ignore all folders that start with "__"
+__*/
