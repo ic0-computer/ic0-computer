@@ -1,4 +1,6 @@
 <script lang="ts">
+  // constants
+  import { SIDEBAR_WIDTH } from './libs/constants';
   // theme
   import { onMount } from 'svelte';
   import { themeChange } from 'theme-change';
@@ -33,16 +35,28 @@
   // open/close drawer
   $: drawer_open = logo === ss2 || logo === ss4;
 
+  // calculate sidebar width adjustment
+  $: width_adjustment = drawer_open ? SIDEBAR_WIDTH : 0;
+
 </script>
 
 <Router url="{url}">  
 
-  <div class="drawer bg bg-neutral h-screen">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" bind:checked={drawer_open} />
+  <div class="drawer">
+    <input type="checkbox" class="drawer-toggle" bind:checked={drawer_open} />
+    <!------------------->
+    <!----- ic0 logo ---->
+    <!------------------->
+    <button class="z-50 fixed flex flex-row items-center h-28 w-44 p-3 cursor-pointer hover:translate-x-0.5 hover:translate-y-0.5 normal-case text-xl font-bold text-primary _logo-extra" style="border: 4px solid pink" unselectable="on" 
+      on:click={updateLogo}>
+      <pre class="text-left b-0 m-0 pl-1 text-[10px] leading-[9px] tracking-[-0.5px]">{logo}</pre>
+      <p>&nbsp;{#if drawer_open} ⟪ {:else} ⟫ {/if}</p>
+    </button>
     <!------------------->
     <!-- page contents -->
     <!------------------->
-    <div class="drawer-content">
+    <div class="page-contents absolute right-0 h-screen flex flex-col items-center" style="width: calc(100vw - {width_adjustment}rem); transition: width 0.3s; border: 4px solid purple">
+      <div class="h-28 w-44 top-0 left-0 self-end" style="border: 4px solid green">Button</div>
       <Route path="/"           ><Home      /></Route>
       <Route path="/portfolio"  ><Portfolio /></Route>
       <Route path="/exchange"   ><Exchange  /></Route>
@@ -54,8 +68,8 @@
     <!------------------->
     <!----- sidebar ----->
     <!------------------->
-    <div class="drawer-side">
-      <ul class="menu p-4 pt-32 overflow-y-auto w-80 bg-base-100 text-base-content h-screen">
+    <div class="drawer-side" style="width: {SIDEBAR_WIDTH}rem">
+      <ul class="menu p-4 pt-32 overflow-y-auto bg-base-100 text-base-content h-screen w-full" style="border: 4px solid red">
         <li><a href="/"          use:link> Home      </a></li>
         <li><a href="/portfolio" use:link> Portfolio </a></li>
         <li><a href="/exchange"  use:link> Exchange  </a></li>
@@ -69,14 +83,7 @@
         </footer>
       </ul>
     </div>
-    <!------------------->
-    <!----- ic0 logo ---->
-    <!------------------->
-    <button class="z-50 fixed flex flex-row items-center p-3 h-auto cursor-pointer hover:translate-x-0.5 hover:translate-y-0.5 normal-case text-xl font-bold text-primary _logo-extra" unselectable="on" 
-      on:click={updateLogo}>
-      <pre class="text-left b-0 m-0 pl-1 text-[10px] leading-[9px] tracking-[-0.5px]">{logo}</pre>
-      <p>&nbsp;{#if drawer_open} ⟪ {:else} ⟫ {/if}</p>
-    </button>
+    
   </div>
 
 </Router>
