@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "dev": "cd frontend && bun dev",
+    "prettier": "prettier . --write",
+    "prettier-motoko": "prettier --write --plugin=prettier-plugin-motoko **/*.mo"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.2",
+    "prettier-plugin-motoko": "^0.8.1"
+  },
+  "dependencies": {
+    "@dfinity/auth-client": "^0.20.2",
+    "ic0": "^0.2.8",
+    "vite-plugin-environment": "^1.1.3"
+  }
+}
