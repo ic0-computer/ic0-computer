@@ -1,1 +1,1 @@
-<div style="border: 4px solid blue">Home</div>
+<div>Home</div>
