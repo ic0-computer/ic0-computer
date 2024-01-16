@@ -13,14 +13,15 @@
   import Portfolio from "./routes/Portfolio.svelte";
   import Exchange from "./routes/Exchange.svelte";
   import Settings from "./routes/Settings.svelte";
+  import Subsidiary from "./routes/Subsidiary.svelte";
   import User from "./routes/User.svelte";
 
   import IIConnect from './components/IIConnect.svelte';
-  import { initializeFromStorage } from './libs/init';
+  import { initIdentity } from './libs/init';
 
   // theme change
   onMount(() => {
-    initializeFromStorage();
+    initIdentity();
     themeChange(true);
   });
 
@@ -77,6 +78,7 @@
       <Route path="/portfolio"  ><Portfolio /></Route>
       <Route path="/exchange"   ><Exchange  /></Route>
       <Route path="/settings"   ><Settings  /></Route>
+      <Route path="/subsidiary" ><Subsidiary/></Route>
       <Route path="user/:id" let:params>
         <User id="{params.id}" />
       </Route>

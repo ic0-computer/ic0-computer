@@ -5,3 +5,5 @@
   <option value="computer">Computer</option>
   <option value="protocol">Protocol</option>
 </select>
+
+<a href="/subsidiary" use:link> Subsidiary </a>

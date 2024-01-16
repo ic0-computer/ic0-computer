@@ -35,18 +35,18 @@
         identity: authClientIdentity,
         fetch
       }));
-      sessionStorage.setItem("ii_agent", JSON.stringify(iiagent))
 
       let principal = authClientIdentity.getPrincipal().toString()
-      localStorage.setItem("ii_principal", principal);
-
       let aid = p_to_aid(principal)
-      localStorage.setItem("ii_aid", aid);
+
+      const profileActor = iiagent('krcn7-paaaa-aaaak-qcnla-cai');
 
       $identity = {
         connected: true,
-        principal: principal,
-        aid: aid,
+        principal,
+        aid,
+        iiagent,
+        profileActor
       };
 
     } catch (error) {
