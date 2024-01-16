@@ -4,8 +4,9 @@
   // theme
   import { onMount } from 'svelte';
   import { themeChange } from 'theme-change';
-  // assets
+  // libs
   import { ss1,ss2,ss3,ss4 } from "./assets/string";
+  import { initIdentity } from './libs/init';
   // routing
   import { Router, Route, link } from "svelte-routing";
   export let url = "";
@@ -15,11 +16,9 @@
   import Settings from "./routes/Settings.svelte";
   import Subsidiary from "./routes/Subsidiary.svelte";
   import User from "./routes/User.svelte";
-
+  // components
   import IIConnect from './components/IIConnect.svelte';
-  import { initIdentity } from './libs/init';
 
-  // theme change
   onMount(() => {
     initIdentity();
     themeChange(true);
@@ -55,7 +54,7 @@
       <p>&nbsp;{#if drawer_open} ⟪ {:else} ⟫ {/if}</p>
     </button>
     <!------------------->
-    <!-- page contents -->
+    <!----- header ------>
     <!------------------->
     <div class="page-contents absolute right-0 h-screen flex flex-col items-center" style="width: calc(100vw - {width_adjustment}rem); transition: width 0.3s;">
       <div class="h-28 w-full top-0 left-0 self-end text-center flex bg-neutral-400"
@@ -74,6 +73,9 @@
           </svg>
         </div> -->
       </div>
+      <!-------------------->
+      <!-- route contents -->
+      <!-------------------->
       <Route path="/"           ><Home      /></Route>
       <Route path="/portfolio"  ><Portfolio /></Route>
       <Route path="/exchange"   ><Exchange  /></Route>
