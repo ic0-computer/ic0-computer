@@ -5,6 +5,6 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 export default defineConfig({
   plugins: [svelte(), viteSingleFile()],
   define: {
-    global: "window",
+    global: 'window',
   },
 });

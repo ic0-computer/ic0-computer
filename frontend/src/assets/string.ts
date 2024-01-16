@@ -54,8 +54,7 @@ export const s4: string = ` __             ______                               
                                                               \\██                                              
 `;
 
-export const ss1: string 
-= `
+export const ss1: string = `
 ██\\            ██████\\   
 \\__|          ██__ ███\\  
 ██\\  ███████\\ ██ /████ | 
@@ -65,8 +64,7 @@ export const ss1: string
 ██ |\\███████\\ \\██████  / 
 \\__| \\_______| \\______/  `;
 
-export const ss2: string 
-= `
+export const ss2: string = `
  /██            /██████  
 |__/           /██  _███ 
  /██  /███████| ██ /████ 
@@ -76,8 +74,7 @@ export const ss2: string
 | ██|  ███████|  ██████/ 
 |__/ \\_______/ \\______/  `;
 
-export const ss3: string 
-=` __             ______   
+export const ss3: string = ` __             ______   
 /  |           /      \\  
 ██/   _______ /██████  | 
 /  | /       |██/  ███ | 
@@ -88,8 +85,7 @@ export const ss3: string
 ██/  ███████/  ██████/   
 `;
 
-export const ss4: string 
-=` __             ______ 
+export const ss4: string = ` __             ______ 
 |  \\           /      \\  
  \\██  _______ |  ██████\\ 
 |  \\ /       \\| ██ |/███ 
@@ -99,8 +95,7 @@ export const ss4: string
 | ██ \\██     \\ \\███/  ██
  \\██  \\███████  \\██████  `;
 
-export const ic0_logo: string 
-= `  /██████  
+export const ic0_logo: string = `  /██████  
  /██  _███ 
 | ██ /████ 
 | ██ ██ ██ 
