@@ -52,7 +52,7 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
 
         // validate chars
         switch (__findInvalidChar(init_data.display_name)) {
-          case (?char) { return #err(Char.toText(char) # " is not a valid character for a display name") };
+          case (?char) { return #err("\'" # Char.toText(char) # "\' is not a valid character for a display name") };
           case (null) {};
         };
 
@@ -279,6 +279,17 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
       };
     };
   };
+
+  //
+  // !! temp
+  //
+  public shared query ({ caller }) func get() : async ?ST.User {
+    let data = Option.flatten(Map.get(SV.users, phash, caller));
+    return data;
+  };
+  //
+  // !!
+  //
 
   ///////////////////////////////////
   //             ADMIN             //

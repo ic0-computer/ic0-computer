@@ -21,7 +21,7 @@
 
   onMount(() => {
     initIdentity();
-    themeChange(true);
+    themeChange(false);
   });
 
   // logo init
