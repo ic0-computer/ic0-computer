@@ -4,6 +4,7 @@
   import { Connect2ICProvider} from "@connect2ic/svelte";
   import { idlFactory } from "../../../.dfx/local/canisters/profile/service.did.js"
   import ConnectSubsidiary from "../components/ConnectSubsidiary.svelte";
+  import "@connect2ic/core/style.css"
 
   // initialize client
   const client = createClient({

@@ -1,5 +1,6 @@
 <script>
 import { ConnectDialog, ConnectButton, useConnect, useCanister } from "@connect2ic/svelte";
+import { identity } from '../libs/store';
 
 const { principal, disconnect } = useConnect({});
 const [profile] = useCanister("profile");
@@ -16,8 +17,11 @@ const do_it = async () => {
 
 <div>Add Subsidiary</div>
 
-<ConnectButton />
-<ConnectDialog />
+<div class="btn-primary font-bold rounded-full m-3 p-2 items-center text-right top-0 right-0">
+  <ConnectButton dark={true}/>
+</div>
+
+<ConnectDialog dark={true} />
 
 <h1>{$principal}</h1>
 
