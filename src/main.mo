@@ -199,33 +199,22 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
         let caller_on_registry = Map.get(SV.principals, phash, caller);
         switch (caller_on_registry) {
           case (?found) {
+            let new_add_requests = Array.filter<Principal>(user_data.add_requests, func x = x != caller);
+            let new_user_data = {
+              subsidiaries = user_data.subsidiaries;
+              add_requests = new_add_requests;
+              init_time = user_data.init_time;
+              display_name = user_data.display_name;
+              handle = user_data.handle;
+            };
+            // remove from add request if Primary of Subsidiary is found
             switch (found) {
               case (#Primary) {
-                // remove caller from add requests
-                let new_add_requests = Array.filter<Principal>(user_data.add_requests, func x = x != caller);
-                let new_user_data = {
-                  subsidiaries = user_data.subsidiaries;
-                  add_requests = new_add_requests;
-                  init_time = user_data.init_time;
-                  display_name = user_data.display_name;
-                  handle = user_data.handle;
-                };
-                Map.set(SV.users, phash, caller, ?new_user_data);
-
+                Map.set(SV.users, phash, principal, ?new_user_data);
                 return #err("Caller principal has already been initialized as a primary account");
               };
               case (#Subsidiary(primary)) {
-                // remove caller from add requests
-                let new_add_requests = Array.filter<Principal>(user_data.add_requests, func x = x != caller);
-                let new_user_data = {
-                  subsidiaries = user_data.subsidiaries;
-                  add_requests = new_add_requests;
-                  init_time = user_data.init_time;
-                  display_name = user_data.display_name;
-                  handle = user_data.handle;
-                };
                 Map.set(SV.users, phash, principal, ?new_user_data);
-
                 return #err("Caller principal is already being used as a subsidiary of principal " # Principal.toText(primary.primary));
               };
               case (#Unused) {};
@@ -251,7 +240,7 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
               display_name = user_data.display_name;
               handle = user_data.handle;
             };
-            Map.set(SV.users, phash, caller, ?new_user_data);
+            Map.set(SV.users, phash, principal, ?new_user_data);
 
             // add to principals list
             Map.set(SV.principals, phash, caller, #Subsidiary({ primary = principal }));

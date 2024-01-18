@@ -27,7 +27,7 @@ const createProfile = async () => {
 <div>Add Subsidiary</div>
 
 <div class="btn-primary font-bold rounded-full m-3 p-2 items-center text-right top-0 right-0">
-  <ConnectButton dark={true}/>
+  <ConnectButton />
 </div>
 
 <ConnectDialog dark={true} />
