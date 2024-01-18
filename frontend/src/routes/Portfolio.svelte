@@ -17,6 +17,7 @@
     console.log(profileData);
   }
 
+
 </script>
 
 <input bind:value={displayName} placeholder="Enter Display Name" />
@@ -37,7 +38,12 @@
 
 <p class="text-slate-800">
   {#if profileData}
-    {JSON.stringify(profileData)}
+    {JSON.stringify(profileData, (key, value) => {
+      if (typeof value === 'bigint') {
+        return value.toString();
+      }
+      return value;
+    })}
   {/if}
 </p>
 <br>

@@ -224,7 +224,7 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
                   display_name = user_data.display_name;
                   handle = user_data.handle;
                 };
-                Map.set(SV.users, phash, caller, ?new_user_data);
+                Map.set(SV.users, phash, principal, ?new_user_data);
 
                 return #err("Caller principal is already being used as a subsidiary of principal " # Principal.toText(primary.primary));
               };
