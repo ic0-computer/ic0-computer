@@ -1,27 +1,38 @@
-<script>
+<script lang="ts">
+//@ts-ignore
 import { ConnectDialog, ConnectButton, useConnect, useCanister } from "@connect2ic/svelte";
+import type { TextResult } from "../../../.dfx/local/canisters/profile/service.did"
 import { Principal } from "@dfinity/principal"
 import { identity } from '../libs/store';
 
-const { principal, disconnect } = useConnect({});
-const [profile] = useCanister("profile");
+const { principal } = useConnect({});
+const [ sub ] = useCanister("sub");
 
-let createResult;
+let create_result: TextResult;
 
 const do_it = async () => {
-  let manage_subsidiaries = await $profile.manage_subsidiaries({
+  let manage_subsidiaries = await $sub?.manage_subsidiaries?.({
     Confirm: Principal.fromText("l4bhv-nc3z2-r3zi3-ldgie-jm4yi-l3fpw-xsvja-pqknr-icfhq-zayes-5qe")
   });
-  console.log("manage_subsidiaries", manage_subsidiaries);
+
+  if (manage_subsidiaries != null) {
+    console.log("manage_subsidiaries", manage_subsidiaries);
+  } else {
+    console.error("Error calling do_it: $profile or manage_subsidiaries is null or undefined");
+  }
 };
 
 const createProfile = async () => {
-    console.log($identity);
-    createResult = await $identity.profileActor.call('manage_subsidiaries', 
-      { AddRequest: [Principal.fromText("lzsqn-kxes3-k4b5k-ifqqg-gh4rb-ndof5-gygrk-jtf7c-n7tqm-twbbw-uqe")] }
-    );
-    console.log(createResult);
+  create_result = await $identity?.profile_canister_actor?.call('manage_subsidiaries',
+    { AddRequest: [Principal.fromText("lzsqn-kxes3-k4b5k-ifqqg-gh4rb-ndof5-gygrk-jtf7c-n7tqm-twbbw-uqe")] }
+  );
+
+  if (create_result != null) {
+    console.log(create_result);
+  } else {
+    console.error("Error calling createProfile: $identity or $identity.profileActor is null or undefined");
   }
+}
 </script>
 
 <div>Add Subsidiary</div>
@@ -41,8 +52,8 @@ const createProfile = async () => {
 <br>
 
 <p class="text-slate-800">
-  {#if createResult}
-    {JSON.stringify(createResult)}
+  {#if create_result}
+    {JSON.stringify(create_result)}
   {/if}
 </p>
 <br>

@@ -27,6 +27,8 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@tsconfig/svelte": "^5.0.2",
+    "@types/isomorphic-fetch": "^0.0.39",
+    "@types/three": "^0.160.0",
     "autoprefixer": "^10.4.16",
     "daisyui": "^4.5.0",
     "postcss": "^8.4.32",

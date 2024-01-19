@@ -1,52 +1,54 @@
-<script>
+<script lang="ts">
   import { AuthClient } from '@dfinity/auth-client';
   import { replica, HttpAgent} from 'ic0';
   import fetch from "isomorphic-fetch";
   import { identity } from '../libs/store';
-  import { p_to_aid } from '@ic0-computer/tools';
+  import { p2Aid } from '@ic0-computer/tools';
   import { avatar } from '@ic0-computer/tools';
+  import connect_gif from "../assets/connect.gif";
 
   const handleDisconnect = async () => {
-    sessionStorage.removeItem("ii_agent");
-    localStorage.removeItem("ii_principal");
-    localStorage.removeItem("ii_aid");
+    (await AuthClient.create()).logout();
     $identity = {
       connected: false,
       principal: '2vxsx-fae',
       aid: '1c7a48ba6a562aa9eaa2481a9049cdf0433b9738c992d698c31d8abf89cadc79',
+      ii_agent: null,
+      profile_canister_actor: null,
     };
   };
 
   const handleLogin = async () => {
     try {
-      const authClient = await AuthClient.create();
+      const auth_client = await AuthClient.create();
 
-      await new Promise((resolve) => {
-        authClient.login({
+      await new Promise<void>((resolve) => {
+        auth_client.login({
           identityProvider: 'https://identity.ic0.app',
-          onSuccess: resolve,
+          onSuccess: () => resolve(),
         });
       });
 
-      const authClientIdentity = authClient.getIdentity();
+      const auth_client_identity = auth_client.getIdentity();
 
-      const iiagent = replica(new HttpAgent({ 
+      const ii_agent = replica(new HttpAgent({ 
         host: "https://icp-api.io",
-        identity: authClientIdentity,
+        // @ts-ignore
+        identity: auth_client_identity,
         fetch
       }));
 
-      let principal = authClientIdentity.getPrincipal().toString()
-      let aid = p_to_aid(principal)
+      let principal = auth_client_identity.getPrincipal().toString()
+      let aid = p2Aid(principal)
 
-      const profileActor = iiagent('krcn7-paaaa-aaaak-qcnla-cai');
+      const profile_canister_actor = ii_agent('krcn7-paaaa-aaaak-qcnla-cai');
 
       $identity = {
         connected: true,
         principal,
         aid,
-        iiagent,
-        profileActor
+        ii_agent,
+        profile_canister_actor
       };
 
     } catch (error) {
@@ -65,5 +67,8 @@
     </div>
   </div>
 {:else}
-  <button on:click={handleLogin}>Login</button>
+  <button on:click={handleLogin}>
+    Connect
+    <img class="h-10" src={connect_gif} alt="Connect . . .">
+  </button>
 {/if}

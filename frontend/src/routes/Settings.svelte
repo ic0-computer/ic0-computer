@@ -1,11 +1,11 @@
-<script>
-import { link } from "svelte-routing";
-import { themeChange } from 'theme-change'
-import { onMount } from 'svelte';
+<script lang="ts">
+  import { link } from "svelte-routing";
+  import { themeChange } from 'theme-change'
+  import { onMount } from 'svelte';
 
-onMount(() => {
-  themeChange(false)
-})
+  onMount(() => {
+    themeChange(false)
+  })
 
 </script>
 

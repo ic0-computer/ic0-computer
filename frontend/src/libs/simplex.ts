@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { createNoise4D } from 'simplex-noise';
+import type { NoiseFunction4D } from 'simplex-noise';
 
 interface IVertices {
   [index: string]: {
@@ -9,36 +10,45 @@ interface IVertices {
   };
 }
 
-const noise4D = createNoise4D();
+// 4D noise value
+const noise4D: NoiseFunction4D = createNoise4D();
 
-function getNoise(x, y, z, t) {
+function getNoise(x: number, y: number, z: number, t: number): number {
   return noise4D(x, y, z, t);
 }
 
-var primary_color: number = 0x555555;
-var secondary_color: number = 0x999999;
+// WebGLRenderer instance
+let renderer: THREE.WebGLRenderer;
 
-let renderer;
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.5, 500);
-const geometry = new THREE.PlaneGeometry(400, 400, 100, 100);
-const material = new THREE.MeshBasicMaterial({
-  color: primary_color,
+// Scene, camera, and geometry setup
+const scene: THREE.Scene = new THREE.Scene();
+const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.5,
+  500,
+);
+const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(400, 400, 100, 100);
+const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
+  color: 0x555555,
   wireframe: true,
 });
 
+// Set scene background and fog
 scene.background = new THREE.Color(0x000000);
-scene.fog = new THREE.Fog(secondary_color, 10, 30);
+scene.fog = new THREE.Fog(0x999999, 10, 30);
 
+// Access the position attribute of the geometry
 const positionAttribute = geometry.getAttribute('position');
-const point = new THREE.Vector3();
+const point: THREE.Vector3 = new THREE.Vector3();
 const vertices: IVertices = {};
 
-// Go thru all points and collect points on same vertex with a hashmap
+// Iterate through all points and collect points on the same vertex with a hashmap
 for (let i = 0; i < positionAttribute.count; i++) {
   point.fromBufferAttribute(positionAttribute, i);
   const key = [point.x, point.y, point.z].join(',');
   if (!vertices[key]) {
+    // Add noise to the z-coordinate based on different frequency factors
     vertices[key] = {
       x: point.x,
       y: point.y,
@@ -49,98 +59,87 @@ for (let i = 0; i < positionAttribute.count; i++) {
         getNoise(point.x * 0.1, point.y * 0.125, point.z * 0.125, 0),
     };
   }
-  // Modify all points on same vertex with same deformation
+  // Modify all points on the same vertex with the same deformation
   const { x, y, z } = vertices[key];
   positionAttribute.setXYZ(i, x, y, z);
 }
 
-const landscape = new THREE.Mesh(geometry, material);
+// Create a mesh using the geometry and material
+const landscape: THREE.Mesh = new THREE.Mesh(geometry, material);
 landscape.rotation.x = (-90 * Math.PI) / 180;
-// landscape.position.y = -0.1;
-
 scene.add(landscape);
+
+// Set camera position and look at the landscape
 camera.position.z = 5;
 camera.lookAt(landscape.position);
 
+// Resize function to handle window resize events
 const resize = () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 };
 
-var mouse = new THREE.Vector2(),
-  INTERSECTED;
-function onMouseMove(event) {
+// Vector2 for mouse coordinates and INTERSECTED variable
+const mouse: THREE.Vector2 = new THREE.Vector2();
+
+// Event handler for mouse movement
+function onMouseMove(event: MouseEvent) {
   event.preventDefault();
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
-function onDocumentTouchStart(event) {
+
+// Event handlers for touch events
+function onDocumentTouchStart(event: TouchEvent) {
   if (event.touches.length == 1) {
     event.preventDefault();
     mouse.x = event.touches[0].pageX - window.innerWidth / 2;
     mouse.y = event.touches[0].pageY - window.innerHeight / 2;
   }
 }
-function onDocumentTouchMove(event) {
+
+function onDocumentTouchMove(event: TouchEvent) {
   if (event.touches.length == 1) {
     event.preventDefault();
     mouse.x = event.touches[0].pageX - window.innerWidth / 2;
     mouse.y = event.touches[0].pageY - window.innerHeight / 2;
   }
 }
+
+// Add event listeners for mouse and touch events
 window.addEventListener('mousemove', onMouseMove, false);
 window.addEventListener('touchstart', onDocumentTouchStart, false);
 window.addEventListener('touchmove', onDocumentTouchMove, false);
 
-const uSpeed = 0.00005;
-var run = true;
-var animate = function () {
-  if (run == true) {
+// Animation parameters
+const uSpeed: number = 0.00005;
+const dampingFactor = 0.95;
+let run: boolean = true;
+
+// Animation function
+const animate = () => {
+  if (run) {
     requestAnimationFrame(animate);
 
-    let posX;
-    let posY;
-    let RotateY, RotateX, CameraPosY;
+    let posX: number;
+    let posY: number;
+    let RotateY: number, RotateX: number, CameraPosY: number;
 
-    if (mouse.x > 0.3) {
-      posX = 0.3;
-    } else if (mouse.x < -0.3) {
-      posX = -0.3;
-    } else {
-      posX = mouse.x;
-    }
+    // Clamp mouse coordinates to a certain range
+    posX = Math.min(0.3, Math.max(-0.3, mouse.x));
+    posY = Math.min(0.3, Math.max(-0.3, mouse.y));
 
-    if (mouse.y > 0.3) {
-      posY = 0.3;
-    } else if (mouse.y < -0.3) {
-      posY = -0.3;
-    } else {
-      posY = mouse.y;
-    }
-
+    // Calculate rotation and position changes based on mouse movement
     RotateY = (posX * 8 - camera.rotation.y) * uSpeed;
     RotateX = (-(posY * 2) - camera.rotation.x) * uSpeed;
     CameraPosY = (-(mouse.y * 20) - camera.rotation.y) * uSpeed;
 
-    if (RotateY > 0.0005) {
-      RotateY = 0.0005;
-    } else if (RotateY < -0.0005) {
-      RotateY = -0.0005;
-    }
+    RotateY = Math.max(-0.0005, Math.min(0.0005, RotateY)) * dampingFactor;
+    RotateX = Math.max(-0.0000199, Math.min(0.0000199, RotateX)) * dampingFactor;
+    CameraPosY = Math.max(-0.00444, Math.min(0.00444, CameraPosY)) * dampingFactor;
 
-    if (RotateX > 0.0000199) {
-      RotateX = 0.0000199;
-    } else if (RotateX < -0.0000199) {
-      RotateX = -0.0000199;
-    }
-
-    if (CameraPosY > 0.00444) {
-      CameraPosY = 0.00444;
-    } else if (CameraPosY < -0.00444) {
-      CameraPosY = -0.00444;
-    }
-
+    // Apply rotation and position changes
     landscape.rotation.y -= RotateY;
     landscape.rotation.x -= RotateX;
     if (camera.position.y > 10) {
@@ -151,48 +150,23 @@ var animate = function () {
       camera.position.y -= CameraPosY;
     }
 
+    // Update camera's look-at position
     camera.lookAt(landscape.position);
 
-    // console.log("RotateY: ", RotateY);
-    // console.log("RotateX: ", RotateX);
-    // console.log("CameraPosY: ", CameraPosY);
-
-    // console.log("camera.psoition: ", camera.position);
-
+    // Render the scene
     renderer.render(scene, camera);
   }
 };
 
-export const startScene = ( el : HTMLCanvasElement ) => {
+// Start the scene
+export const startScene = (el: HTMLCanvasElement) => {
   run = true;
   renderer = new THREE.WebGLRenderer({ antialias: true, canvas: el });
   resize();
   animate();
 };
 
-export const updateScene = (theme) => {
-  switch (theme) {
-    case 'internet':
-      material.color.r = 88;
-      material.color.g = 0;
-      material.color.b = 0;
-      break;
-    case 'computer':
-      material.color.r = 0;
-      material.color.g = 88;
-      material.color.b = 0;
-      break;
-    case 'protocol':
-      material.color.r = 0;
-      material.color.g = 0;
-      material.color.b = 88;
-      break;
-    default:
-      break;
-  }
-  renderer.render(scene, camera);
-};
-
+// Stop the scene
 export const stopScene = () => {
   run = false;
 };
