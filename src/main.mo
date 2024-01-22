@@ -269,16 +269,12 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
     };
   };
 
-  //
-  // !! temp
-  //
-  public shared query ({ caller }) func get() : async ?ST.User {
-    let data = Option.flatten(Map.get(SV.users, phash, caller));
-    return data;
+  public shared query ({ caller }) func get_profile() : async Types.UserResult {
+    switch(Option.flatten(Map.get(SV.users, phash, caller))) {
+      case (?val) { return #ok(val) };
+      case (null) { return #err("Could not find User data")};
+    };
   };
-  //
-  // !!
-  //
 
   ///////////////////////////////////
   //             ADMIN             //

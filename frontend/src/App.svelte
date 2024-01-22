@@ -2,7 +2,7 @@
   // libs
   import { onMount } from 'svelte';
   import { SIDEBAR_WIDTH } from './libs/constants';
-  import { initInternetIdentity } from './libs/init';
+  import { setInternetIdentityData } from './libs/authOperations';
   import { state } from './libs/store';
   // routing
   import { Router, Route } from "svelte-routing";
@@ -19,7 +19,7 @@
   import Sidebar from './components/Sidebar.svelte';
 
   onMount(() => {
-    initInternetIdentity();
+    setInternetIdentityData();
   });
 
   // calculate sidebar width adjustment

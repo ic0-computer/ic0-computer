@@ -28,6 +28,9 @@ package-lock.json
 # Ignore macOS system files
 .DS_Store
 
+# dist files
+**/dist/
+
 # IC related files
 .dfx/
 .mops/
