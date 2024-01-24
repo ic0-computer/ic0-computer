@@ -1,39 +1,77 @@
 <script lang="ts"> 
-  // @ts-ignore
+  import { createConnectr } from "../libs/connectr";
+  import { writable } from "svelte/store";
+  //@ts-ignore
   import { idlFactory } from "../../../.dfx/local/canisters/profile/service.did.js"
-  // @ts-ignore
-  import { Connect2ICProvider} from "@connect2ic/svelte";
-  import { createClient } from "@connect2ic/core";
-  import { InfinityWallet, StoicWallet, PlugWallet, NFID, AstroX } from "@connect2ic/core/providers";
-  import "@connect2ic/core/style.css"
-  import ConnectSubsidiary from "../components/ConnectSubsidiary.svelte";
 
-  // Initialize connect2IC client
-  const client = createClient({
-    canisters: {
-      ["sub"]: {
-        canisterId: "krcn7-paaaa-aaaak-qcnla-cai",
-        idlFactory: idlFactory,
-      },
-    },
-    providers: [
-      new StoicWallet(),
-      new PlugWallet(),
-      new InfinityWallet(),
-      new NFID(),
-      new AstroX(),
-    ],
-    globalProviderConfig: {
-      dev: false,
-      host: "https://icp-api.io",
-      appName: "ic0.computer",
-      whitelist: ["krcn7-paaaa-aaaak-qcnla-cai"],
-    },
+  let agent;
+  let seedValue = '';
+
+  // Use writable to create a Svelte store
+  const localStore = writable({});
+
+  const connectr = createConnectr({
+    whitelist: ["krcn7-paaaa-aaaak-qcnla-cai", "ryjl3-tyaaa-aaaaa-aaaba-cai"],
+    host: "https://icp0.io",
   });
 
+  // Subscribe to state changes
+  connectr.subscribe((newState) => {
+    localStore.set(newState);
+  });
+
+  $: console.log("local store", $localStore);
 </script>
 
-<!-- Context for Connect2IC -->
-<Connect2ICProvider client={client}>
-  <ConnectSubsidiary />
-</Connect2ICProvider>
+<button on:click={connectr.stoicConnect}>stoicConnect</button>
+<button on:click={connectr.stoicDisconnect}>stoicDisconnect</button>
+<button on:click={connectr.stoicInit}>stoicInit</button>
+<button on:click={async () => console.log(await connectr.stoicIsConnected())}>stoicIsConnected</button>
+<button on:click={async () => {
+  try {
+    agent = await connectr.stoicGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory);
+    console.log("agent", agent);
+    console.log("call it", await agent.manage_primary({ Init: { display_name: "hello" } }));
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}}>stoicGetAgent and make a call</button>
+
+<br>
+
+<button on:click={connectr.plugConnect}>plugConnect</button>
+<button on:click={connectr.plugInit}>plugInit</button>
+<button on:click={async () => console.log(await connectr.plugIsConnected())}>plugIsConnected</button>
+<button on:click={async () => 
+{
+  try {
+    agent = await connectr.plugGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory);
+    console.log("agent", agent);
+    console.log("call it", await agent.manage_primary({ Init: { display_name: "hello" } }));
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}}>plugGetAgent and make a call</button>
+
+<br>
+
+<button on:click={connectr.bitfinityConnect}>bitfinityConnect</button>
+<button on:click={connectr.bitfinityInit}>bitfinityInit</button>
+<button on:click={async () => console.log(await connectr.bitfinityIsConnected())}>bitfinityIsConnected</button>
+<button on:click={async () => 
+{
+  try {
+    agent = await connectr.bitfinityGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory);
+    console.log("agent", agent);
+    console.log("call it", await agent.manage_primary({ Init: { display_name: "hello" } }));
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}}>bitfinityGetAgent and make a call</button>
+
+<br>
+
+<input bind:value={seedValue} placeholder="Enter seed..." />
+
+<button on:click={async () => console.log(await connectr.seedCreate(seedValue))}>seedCreate --not reccomended--</button>
+<button on:click={async () => console.log(await connectr.seedGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory, 0))}>seedGetAgent</button>
