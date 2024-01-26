@@ -19,6 +19,7 @@ interface ProfileData {
 interface StateData {
   drawer_open: boolean;
   logo: string;
+  page: string;
 }
 
 export const identity = writable<IdentityData>({
@@ -37,4 +38,5 @@ export const profile = writable<ProfileData>({
 export const state = writable<StateData>({
   drawer_open: true,
   logo: ss1,
+  page: "",
 });

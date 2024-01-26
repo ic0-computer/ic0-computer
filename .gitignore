@@ -36,5 +36,6 @@ package-lock.json
 .mops/
 canister_ids.json
 
-# Ignore all folders that start with "__"
+# Ignore all folders and files that start with "__"
 __*/
+__*.*

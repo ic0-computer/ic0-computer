@@ -2,9 +2,11 @@
   import { link } from "svelte-routing";
   import { themeChange } from 'theme-change'
   import { onMount } from 'svelte';
+  import { state } from "../libs/store";
 
   onMount(() => {
-    themeChange(false)
+    themeChange(false);
+    $state.page = "Settings";
   })
 
 </script>
@@ -17,4 +19,4 @@
   <option value="protocol">Protocol</option>
 </select>
 
-<a href="/subsidiary" use:link> Subsidiary </a>
+<button class="btn btn-link"><a href="/subsidiary" use:link> Subsidiary </a></button>

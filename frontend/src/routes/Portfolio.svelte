@@ -1,6 +1,12 @@
 <script lang="ts">
   import { identity , profile} from '../libs/store';
-  import { handleLogin, setProfileData } from "../libs/authOperations"
+  import { handleLogin, setProfileData } from "../libs/identity"
+  import { state } from "../libs/store";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    $state.page = "Portfolio";
+  })
 
   let display_name = '';
 
@@ -37,5 +43,5 @@
   </p>
   <br>
 {:else}
-  <button on:click={handleLogin}>Connect First</button>
+  <button class="btn btn-circle btn-outline w-20 b-2 m-2" on:click={handleLogin}>Connect First</button>
 {/if}

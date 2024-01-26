@@ -70,34 +70,25 @@ class ConnectrClass implements Readable<WalletStore> {
         // No existing connection, let's make one!
         identity = await StoicIdentity.connect();
       }
-      this.store.update((store) => ({
-        ...store,
-        stoic: {
-          status: "connecting",
-          identity: identity,
-        }
-      }));
-      this.stoicInit();
-    });
-  }
 
-  async stoicInit() {
-    const stoic_identity = get(this.store)?.stoic?.identity;
-    if (stoic_identity) {
-      //@ts-ignore
-      const accounts = JSON.parse(await stoic_identity.accounts());
+      const accounts = JSON.parse(await identity.accounts());
 
       this.store.update((store) => ({
         ...store,
         stoic: {
           status: "connected",
-          principal: stoic_identity.getPrincipal(),
+          principal: identity.getPrincipal(),
           accountId: accounts[0].address,
-          identity: stoic_identity,
+          identity: identity,
           accounts: accounts,
         }
       }));
-    }
+
+    });
+  }
+
+  async stoicInit() {
+    await this.stoicConnect()
   }
 
   async stoicIsConnected(): Promise<boolean> {
@@ -283,7 +274,7 @@ class ConnectrClass implements Readable<WalletStore> {
 
   async seedCreate(seedPhrase: string): Promise<void> {
     const seed = mnemonicToSeedSync(seedPhrase);
-    const privateKey = HDKey.fromMasterSeed(seed).derive("m/44'/223'/0'/0/0").privateKey;
+    const privateKey = HDKey.fromMasterSeed(seed).derive("m/44'/223'/0'/0/0").privateKey as Uint8Array;
     const identity = Secp256k1KeyIdentity.fromSecretKey(privateKey);
 
     // Get the current array of seed accounts from the store

@@ -3,6 +3,12 @@
   import { writable } from "svelte/store";
   //@ts-ignore
   import { idlFactory } from "../../../.dfx/local/canisters/profile/service.did.js"
+  import { state } from "../libs/store";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    $state.page = "Subsidiary";
+  })
 
   let agent;
   let seedValue = '';
@@ -75,3 +81,5 @@
 
 <button on:click={async () => console.log(await connectr.seedCreate(seedValue))}>seedCreate --not reccomended--</button>
 <button on:click={async () => console.log(await connectr.seedGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory, 0))}>seedGetAgent</button>
+
+<p>{$connectr}</p>

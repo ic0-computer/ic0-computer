@@ -1,5 +1,5 @@
 <script lang="ts">
-import { handleLogin, handleDisconnect } from "../libs/authOperations";
+import { handleLogin, handleDisconnect } from "../libs/identity";
 import { avatar } from '@ic0-computer/tools';
 import { identity } from '../libs/store';
 import connect_gif from "../assets/connect.gif";

@@ -1,17 +1,21 @@
 <script lang="ts">
-import { onMount, onDestroy } from 'svelte';
-import { startScene, stopScene } from "../libs/simplex";
-
-let canvas_element: HTMLCanvasElement;
+  import Loader2 from "../components/Loader.svelte";
+import { state } from "../libs/store";
+import { onMount } from "svelte";
 
 onMount(() => {
-  if (canvas_element) { startScene(canvas_element) };
-});
-
-onDestroy(() => {
-  stopScene();
-});
-
+  $state.page = "Exchange";
+})
 </script>
 
-<canvas class="z-0 p-0 m-0 overflow-hidden absolute top-0 left-0" bind:this={canvas_element}></canvas>
+<div class="p-6">
+  <Loader2 type="stretch" />
+</div>
+
+<div class="p-6">
+  <Loader2 type="spinner" />
+</div>
+
+<div class="p-6">
+  <Loader2 />
+</div>

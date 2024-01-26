@@ -2,12 +2,12 @@
   // libs
   import { onMount } from 'svelte';
   import { SIDEBAR_WIDTH } from './libs/constants';
-  import { setInternetIdentityData } from './libs/authOperations';
+  import { setInternetIdentityData } from './libs/identity';
   import { state } from './libs/store';
+  import { themeChange } from 'theme-change';
   // routing
   import { Router, Route } from "svelte-routing";
   export let url = "";
-  import Home from "./routes/Home.svelte";
   import Portfolio from "./routes/Portfolio.svelte";
   import Exchange from "./routes/Exchange.svelte";
   import Settings from "./routes/Settings.svelte";
@@ -20,6 +20,7 @@
 
   onMount(() => {
     setInternetIdentityData();
+    themeChange(false);
   });
 
   // calculate sidebar width adjustment
@@ -40,7 +41,7 @@
       <!-------------------->
       <!-- route contents -->
       <!-------------------->
-      <Route path="/"           ><Home      /></Route>
+      <Route path="/"           ><Portfolio /></Route>
       <Route path="/portfolio"  ><Portfolio /></Route>
       <Route path="/exchange"   ><Exchange  /></Route>
       <Route path="/settings"   ><Settings  /></Route>
