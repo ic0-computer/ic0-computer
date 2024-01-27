@@ -1,5 +1,5 @@
 <script lang="ts"> 
-  import { createConnectr } from "../libs/connectr";
+  import { createConnectr } from "@ic0-computer/connectr";
   import { writable } from "svelte/store";
   //@ts-ignore
   import { idlFactory } from "../../../.dfx/local/canisters/profile/service.did.js"
@@ -82,4 +82,4 @@
 <button on:click={async () => console.log(await connectr.seedCreate(seedValue))}>seedCreate --not reccomended--</button>
 <button on:click={async () => console.log(await connectr.seedGetAgent('krcn7-paaaa-aaaak-qcnla-cai', idlFactory, 0))}>seedGetAgent</button>
 
-<p>{$connectr}</p>
+<button class="btn btn-outline" on:click={async () => console.log(connectr.getStore())}></button>
