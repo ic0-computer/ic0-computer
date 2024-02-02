@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Loader2 from "../components/Loader.svelte";
+import Loader from "../components/Loader.svelte";
 import { state } from "../libs/store";
 import { onMount } from "svelte";
 
@@ -9,13 +9,13 @@ onMount(() => {
 </script>
 
 <div class="p-6">
-  <Loader2 type="stretch" />
+  <Loader type="stretch" />
 </div>
 
 <div class="p-6">
-  <Loader2 type="spinner" />
+  <Loader type="spinner" />
 </div>
 
 <div class="p-6">
-  <Loader2 />
+  <Loader />
 </div>

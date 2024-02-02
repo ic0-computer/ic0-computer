@@ -4,7 +4,6 @@ import { replica, HttpAgent } from 'ic0';
 import type { Replica, AgentCanister } from 'ic0';
 import { identity, profile } from './store';
 import type { UserResult } from '../../../.dfx/local/canisters/profile/service.did';
-import fetch from 'isomorphic-fetch';
 
 /**
  * Set Internet Identity Data if Authenticated and save to the store
@@ -25,7 +24,6 @@ export const setInternetIdentityData = async (auth_client?: AuthClient): Promise
         host: 'https://icp-api.io',
         // @ts-ignore
         identity: auth_client_identity,
-        fetch,
       }),
     );
 
@@ -40,6 +38,9 @@ export const setInternetIdentityData = async (auth_client?: AuthClient): Promise
       ii_agent,
       profile_canister_actor,
     });
+
+    // We don't want to await this call
+    setProfileData(profile_canister_actor);
 
     return profile_canister_actor;
   }

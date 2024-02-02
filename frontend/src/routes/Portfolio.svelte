@@ -2,6 +2,7 @@
   import { identity , profile} from '../libs/store';
   import { handleLogin, setProfileData } from "../libs/identity"
   import { state } from "../libs/store";
+  import connect_gif from "../assets/connect.gif"
   import { onMount } from "svelte";
 
   onMount(() => {
@@ -35,13 +36,21 @@
   <br>
   {/if}
 
-  <p class="text-slate-800">
+  <p class="text-accent">
     {#if $profile.display_name && $profile.subsidiaries}
+      <p>Display Name:</p>
       <p>{$profile.display_name}</p>
+      <p>Subsidiaries</p>
       <p>{$profile.subsidiaries}</p>
     {/if}
   </p>
   <br>
 {:else}
-  <button class="btn btn-circle btn-outline w-20 b-2 m-2" on:click={handleLogin}>Connect First</button>
+<div class="mt-20"></div>
+<button on:click={handleLogin} class="relative inline-block">
+  <span class="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
+    <button class="btn bg-black rounded-2xl hover:btn-primary hover:text-accent hover:scale-105">Connect Internet Identity</button>
+  </span>
+  <img class="h-44" src={connect_gif} alt="Connect . . .">
+</button>
 {/if}

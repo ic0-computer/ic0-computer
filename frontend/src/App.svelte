@@ -10,6 +10,7 @@
   export let url = "";
   import Portfolio from "./routes/Portfolio.svelte";
   import Exchange from "./routes/Exchange.svelte";
+  import Miner from "./routes/PrincipalMiner.svelte";
   import Settings from "./routes/Settings.svelte";
   import Subsidiary from "./routes/Subsidiary.svelte";
   import User from "./routes/User.svelte";
@@ -19,7 +20,7 @@
   import Sidebar from './components/Sidebar.svelte';
 
   onMount(() => {
-    setInternetIdentityData();
+    let actor = setInternetIdentityData();
     themeChange(false);
   });
 
@@ -44,6 +45,7 @@
       <Route path="/"           ><Portfolio /></Route>
       <Route path="/portfolio"  ><Portfolio /></Route>
       <Route path="/exchange"   ><Exchange  /></Route>
+      <Route path="/miner"      ><Miner     /></Route>
       <Route path="/settings"   ><Settings  /></Route>
       <Route path="/subsidiary" ><Subsidiary/></Route>
       <Route path="user/:id" let:params>
