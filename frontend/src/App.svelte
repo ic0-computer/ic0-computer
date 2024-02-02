@@ -20,7 +20,7 @@
   import Sidebar from './components/Sidebar.svelte';
 
   onMount(() => {
-    let actor = setInternetIdentityData();
+    setInternetIdentityData();
     themeChange(false);
   });
 

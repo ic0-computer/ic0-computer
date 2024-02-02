@@ -13,5 +13,5 @@
     "noEmit": true,
     "allowImportingTsExtensions": true,
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "**/*.svelte", "vite.config.ts", "src/libs/connectr.ts", "src/libs/identity.ts"]
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "**/*.svelte", "vite.config.ts", "src/libs/*.ts"]
 }
