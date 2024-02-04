@@ -2,15 +2,16 @@ import { AuthClient } from '@dfinity/auth-client';
 import { p2Aid } from '@ic0-computer/tools';
 import { replica, HttpAgent } from 'ic0';
 import type { Replica, AgentCanister } from 'ic0';
-import { identity, profile } from './store';
+import { identity, profile, connectr } from './store';
 import type { UserResult } from '../../../.dfx/local/canisters/profile/service.did';
+import { createConnectr } from '@ic0-computer/connectr';
 
 /**
  * Set Internet Identity Data if Authenticated and save to the store
  * @param auth_client Optional AuthClient instance
  * @returns Promise resolving to AgentCanister or Error
  */
-export const setInternetIdentityData = async (auth_client?: AuthClient): Promise<AgentCanister | Error> => {
+export const initInternetIdentityData = async (auth_client?: AuthClient): Promise<AgentCanister | Error> => {
   // Use provided auth client or create a new one
   const current_auth_client = auth_client || (await AuthClient.create());
 
@@ -68,11 +69,11 @@ export const handleLogin = async () => {
     });
 
     // Set Internet Identity data and retrieve the profile canister actor
-    const SetIIResult = await setInternetIdentityData(auth_client);
+    const SetIIResult = await initInternetIdentityData(auth_client);
 
     // Check if the result is an Error
     if (SetIIResult instanceof Error) {
-      console.error('Error in setInternetIdentityData:', SetIIResult);
+      console.error('Error in initInternetIdentityData:', SetIIResult);
       return;
     }
 
@@ -139,4 +140,18 @@ export const setProfileData = async (profileCanisterActor: AgentCanister) => {
   } catch (error) {
     console.error('Error calling \'get_profile\' method:', error);
   }
+};
+
+/**
+ * Initialize Subsidiary Wallet Data
+ */
+export const initConnectr = async () => {
+  const connectr_instance = createConnectr({
+    whitelist: ["krcn7-paaaa-aaaak-qcnla-cai"],
+    host: "https://icp0.io",
+  });
+
+  connectr.set({
+    connectr: connectr_instance
+  });
 };

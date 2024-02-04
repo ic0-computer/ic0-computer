@@ -2,7 +2,7 @@
   // libs
   import { onMount } from 'svelte';
   import { SIDEBAR_WIDTH } from './libs/constants';
-  import { setInternetIdentityData } from './libs/identity';
+  import { initInternetIdentityData, initConnectr } from './libs/authOperations';
   import { state } from './libs/store';
   import { themeChange } from 'theme-change';
   // routing
@@ -20,7 +20,8 @@
   import Sidebar from './components/Sidebar.svelte';
 
   onMount(() => {
-    setInternetIdentityData();
+    initInternetIdentityData();
+    initConnectr();
     themeChange(false);
   });
 

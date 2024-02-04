@@ -22,11 +22,24 @@ module {
   ///////////////////////////////////
   
   public type User = {
-    subsidiaries: [Principal];
+    subsidiaries: [Subsidiary];
     add_requests: [Principal];
     init_time: Int;
     display_name: Text;
     handle: ?Text;
+  };
+
+  public type Subsidiary = {
+    principal: Principal;
+    wallet_type: WalletType;
+  };
+
+  public type WalletType = {
+    #Stoic;
+    #Plug;
+    #Bitfinity;
+    #Seed;
+    #Unspecified;
   };
 
   public type PrincipalStatus = {
@@ -56,7 +69,7 @@ module {
   public type ManageSubsidiariesRequest = {
     #AddRequest: [Principal];
     #RemoveSubsidiaries: [Principal];
-    #Confirm: Principal;
+    #Confirm: { primary: Principal; wallet: WalletType};
     #ClearRequests;
   };
   

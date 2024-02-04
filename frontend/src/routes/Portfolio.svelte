@@ -1,6 +1,6 @@
 <script lang="ts">
   import { identity , profile} from '../libs/store';
-  import { handleLogin, setProfileData } from "../libs/identity"
+  import { handleLogin, setProfileData } from "../libs/authOperations"
   import { state } from "../libs/store";
   import connect_gif from "../assets/connect.gif"
   import { onMount } from "svelte";

@@ -154,17 +154,17 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
 
         // verify all subsidiaries exist
         for (principal in principals.vals()) {
-          switch (Array.find<Principal>(user_data.subsidiaries, func x = x == principal)) {
+          switch (Array.find<ST.Subsidiary>(user_data.subsidiaries, func x = x.principal == principal)) {
             case (?match) {};
             case (null) { return #err(Principal.toText(principal) # " is not a subsidiary principal") };
           };
         };
 
         // remove principals from user_data.subsidiaries
-        let new_subsidiaries = Array.filter<Principal>(
+        let new_subsidiaries = Array.filter<ST.Subsidiary>(
           user_data.subsidiaries,
-          func(p) {
-            Option.isNull(Array.find<Principal>(principals, func(x) { x == p }));
+          func(s) {
+            Option.isNull(Array.find<Principal>(principals, func(x) { x == s.principal }));
           },
         );
         let new_user_data = {
@@ -182,12 +182,15 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
         };
 
         // return new subsidiaries array if succesful
-        #ok(new_subsidiaries);
+        #ok(Array.map<ST.Subsidiary, Principal>(
+          new_subsidiaries,
+          func x = x.principal
+        ))
       };
       // confirm add request from subsidiary principal
-      case (#Confirm(principal)) {
+      case (#Confirm(info)) {
         // attempt to get specified principal's data
-        let user_data : ST.User = switch (Map.get(SV.users, phash, principal)) {
+        let user_data : ST.User = switch (Map.get(SV.users, phash, info.primary)) {
           case (?val) { switch (val) { case (null) { return #err("Could not find add request") }; case (?v) { v } } };
           case (null) { return #err("Could not find add request") };
         };
@@ -210,11 +213,11 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
             // remove from add request if Primary of Subsidiary is found
             switch (found) {
               case (#Primary) {
-                Map.set(SV.users, phash, principal, ?new_user_data);
+                Map.set(SV.users, phash, info.primary, ?new_user_data);
                 return #err("Caller principal has already been initialized as a primary account");
               };
               case (#Subsidiary(primary)) {
-                Map.set(SV.users, phash, principal, ?new_user_data);
+                Map.set(SV.users, phash, info.primary, ?new_user_data);
                 return #err("Caller principal is already being used as a subsidiary of principal " # Principal.toText(primary.primary));
               };
               case (#Unused) {};
@@ -231,7 +234,7 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
             // remove all add requests for caller (including duplicates)
             let new_add_requests = Array.filter<Principal>(user_data.add_requests, func x = x != caller);
             // add caller as a subsidiary
-            let new_subsidiaries = Array.append(user_data.subsidiaries, [caller]);
+            let new_subsidiaries = Array.append(user_data.subsidiaries, [{principal = caller; wallet_type = info.wallet}]);
             // update add requests
             let new_user_data = {
               subsidiaries = new_subsidiaries;
@@ -240,10 +243,10 @@ shared ({ caller = deployer }) actor class RegistrationCanister() = this {
               display_name = user_data.display_name;
               handle = user_data.handle;
             };
-            Map.set(SV.users, phash, principal, ?new_user_data);
+            Map.set(SV.users, phash, info.primary, ?new_user_data);
 
             // add to principals list
-            Map.set(SV.principals, phash, caller, #Subsidiary({ primary = principal }));
+            Map.set(SV.principals, phash, caller, #Subsidiary({ primary = info.primary }));
 
             // return caller principal if confirm is succesful
             #ok([caller]);
