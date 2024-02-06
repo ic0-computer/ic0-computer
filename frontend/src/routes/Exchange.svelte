@@ -8,14 +8,7 @@ onMount(() => {
 })
 </script>
 
+<h1 class="mt-6">Coming Soon!</h1>
 <div class="p-6">
   <Loader type="stretch" />
-</div>
-
-<div class="p-6">
-  <Loader type="spinner" />
-</div>
-
-<div class="p-6">
-  <Loader />
 </div>

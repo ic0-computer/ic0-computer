@@ -4,6 +4,7 @@
   import { state } from "../libs/store";
   import connect_gif from "../assets/connect.gif"
   import { onMount } from "svelte";
+  import { avatar } from '@ic0-computer/tools';
 
   onMount(() => {
     $state.page = "Portfolio";
@@ -37,17 +38,29 @@
   <br>
   {/if}
 
-  <p class="text-accent">
+  <div class="flex flex-row text-accent">
+
+    <div class="h-auto m-10">
+      {@html avatar({aid: $identity.aid})}
+    </div>
+
+    <div>
     {#if $profile.display_name && $profile.subsidiaries}
-      <p>Display Name:</p>
-      <p>{$profile.display_name}</p>
-      <p>Subsidiaries</p>
+      <p class="text-primary">Display Name:</p>
+      <p>{$profile.display_name}</p><br>
+      <p class="text-primary">Subsidiaries:</p>
       {#each $profile.subsidiaries as subs}
+      <div class="flex flex-row items-center gap-4">
+        <div class="h-10 m-2">
+          {@html avatar({principal: subs.principal})}
+        </div>
         <p>{Object.keys(subs.wallet_type)[0]}: {subs.principal}</p>
+      </div>
       {/each}
     {/if}
-  </p>
-  <br>
+    </div>
+    
+  </div>
 {:else}
 <div class="mt-20"></div>
 <button on:click={handleLogin} class="relative inline-block">
