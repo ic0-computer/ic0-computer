@@ -7,6 +7,7 @@
 
   onMount(() => {
     $state.page = "Portfolio";
+    $identity.profile_canister_actor ? setProfileData($identity.profile_canister_actor) : ''
   })
 
   let display_name = '';
@@ -41,7 +42,9 @@
       <p>Display Name:</p>
       <p>{$profile.display_name}</p>
       <p>Subsidiaries</p>
-      <p>{$profile.subsidiaries}</p>
+      {#each $profile.subsidiaries as subs}
+        <p>{Object.keys(subs.wallet_type)[0]}: {subs.principal}</p>
+      {/each}
     {/if}
   </p>
   <br>

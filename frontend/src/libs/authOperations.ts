@@ -2,9 +2,8 @@ import { AuthClient } from '@dfinity/auth-client';
 import { p2Aid } from '@ic0-computer/tools';
 import { replica, HttpAgent } from 'ic0';
 import type { Replica, AgentCanister } from 'ic0';
-import { identity, profile, connectr } from './store';
+import { identity, profile } from './store';
 import type { UserResult } from '../../../.dfx/local/canisters/profile/service.did';
-import { createConnectr } from '@ic0-computer/connectr';
 
 /**
  * Set Internet Identity Data if Authenticated and save to the store
@@ -140,18 +139,4 @@ export const setProfileData = async (profileCanisterActor: AgentCanister) => {
   } catch (error) {
     console.error('Error calling \'get_profile\' method:', error);
   }
-};
-
-/**
- * Initialize Subsidiary Wallet Data
- */
-export const initConnectr = async () => {
-  const connectr_instance = createConnectr({
-    whitelist: ["krcn7-paaaa-aaaak-qcnla-cai"],
-    host: "https://icp0.io",
-  });
-
-  connectr.set({
-    connectr: connectr_instance
-  });
 };

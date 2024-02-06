@@ -1,8 +1,9 @@
 import { writable } from 'svelte/store';
 import type { Replica, AgentCanister } from 'ic0';
 import { ss1 } from '../assets/string';
-import type { Connectr } from '@ic0-computer/connectr';
+import { createConnectr, type Connectr, type WalletStore } from '@ic0-computer/connectr';
 import type { Subsidiary } from '../../../.dfx/local/canisters/profile/service.did';
+import { PROFILE_CANISTER_ID } from './constants';
 
 interface IdentityData {
   connected: boolean;
@@ -13,7 +14,8 @@ interface IdentityData {
 }
 
 interface ConnectrData {
-  connectr: Connectr | null;
+  connectr: Connectr;
+  store: WalletStore;
 }
 
 interface ProfileData {
@@ -36,7 +38,11 @@ export const identity = writable<IdentityData>({
 });
 
 export const connectr = writable<ConnectrData>({
-  connectr: null,
+  connectr: createConnectr({
+    whitelist: [PROFILE_CANISTER_ID],
+    host: "https://icp0.io",
+  }),
+  store: {},
 });
 
 export const profile = writable<ProfileData>({

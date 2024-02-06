@@ -1,19 +1,6 @@
 {
   "name": "frontend",
   "version": "0.0.0",
-  "dependencies": {
-    "@dfinity/auth-client": "^0.21.4",
-    "@dfinity/candid": "^0.21.4",
-    "@dfinity/ledger-icp": "^2.1.1",
-    "@ic0-computer/connectr": "file:../connectr",
-    "@ic0-computer/tools": "file:../tools",
-    "ic0": "^0.2.8",
-    "isomorphic-fetch": "^3.0.0",
-    "simplex-noise": "^4.0.1",
-    "svelte-routing": "^2.11.0",
-    "theme-change": "^2.5.0",
-    "three": "^0.160.1"
-  },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@tsconfig/svelte": "^5.0.2",
@@ -37,5 +24,14 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@dfinity/auth-client": "^0.21.4",
+    "@dfinity/candid": "^0.21.4",
+    "@ic0-computer/connectr": "file:../connectr",
+    "@ic0-computer/tools": "file:../tools",
+    "ic0": "^0.2.8",
+    "svelte-routing": "^2.11.0",
+    "theme-change": "^2.5.0"
+  }
 }
