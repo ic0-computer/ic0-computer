@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "cd frontend && bun dev",
+    "build": "cd frontend && bun run build",
     "prettier": "prettier . --write",
     "prettier-motoko": "prettier --write --plugin=prettier-plugin-motoko **/*.mo"
   },

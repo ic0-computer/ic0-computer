@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: Consolas, Consolas_MSFontService, sans-serif;
+}
+
+.btn {
+  @apply rounded-full;
+}
+
+._logo_no_select {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+}
+
+._page_contents_extra {
+  position: absolute;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100vw - var(--width-adjustment));
+  transition: width 0.3s;
+}

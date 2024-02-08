@@ -4,6 +4,18 @@
     "profile": {
       "type": "motoko",
       "main": "src/main.mo"
+    },
+    "frontend": {
+      "dependencies": [
+        "profile"
+      ],
+      "frontend": {
+        "entrypoint": "frontend/dist/index.html"
+      },
+      "source": [
+        "frontend/dist"
+      ],
+      "type": "assets"
     }
   },
   "defaults": {
@@ -11,5 +23,6 @@
       "args": "",
       "packtool": "mops sources"
     }
-  }
+  },
+  "output_env_file": ".env"
 }

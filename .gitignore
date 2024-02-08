@@ -5,28 +5,13 @@ node_modules/
 *.log
 build/
 
-# Ignore environment-specific files
-.env
-.env.local
-
-# Ignore compiled Python files
-__pycache__/
-*.pyc
-
-# Ignore package-lock files for npm
-package-lock.json
-
-# Ignore compiled files for Sass and Less
-*.css
-*.scssc
-*.lessc
-
 # Ignore database files
 *.sqlite
 *.db
 
-# Ignore macOS system files
+# Mac OSX temporary files
 .DS_Store
+**/.DS_Store
 
 # dist files
 **/dist/
@@ -35,6 +20,12 @@ package-lock.json
 .dfx/
 .mops/
 canister_ids.json
+
+# dfx generated files
+src/declarations/
+
+# environment variables
+.env
 
 # Ignore all folders and files that start with "__"
 __*/

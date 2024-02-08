@@ -3,7 +3,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
 export default defineConfig({
-  plugins: [svelte(), viteSingleFile()],
+  plugins: [svelte(), /* viteSingleFile() */],
   define: {
     global: 'window',
   },
