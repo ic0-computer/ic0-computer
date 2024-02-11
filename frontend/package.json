@@ -32,6 +32,7 @@
     "@ic0-computer/tools": "file:../tools",
     "ic0": "^0.2.8",
     "svelte-routing": "^2.11.0",
-    "theme-change": "^2.5.0"
+    "theme-change": "^2.5.0",
+    "webextension-polyfill": "^0.4.0"
   }
 }

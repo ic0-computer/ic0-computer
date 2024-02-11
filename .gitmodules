@@ -4,3 +4,6 @@
 [submodule "connectr"]
 	path = connectr
 	url = git@github.com:ic0-computer/connectr.git
+[submodule "computr"]
+	path = computr
+	url = git@github.com:ic0-computer/computr.git
