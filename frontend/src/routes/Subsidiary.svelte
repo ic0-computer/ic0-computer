@@ -111,7 +111,7 @@
 
 <div class="flex flex-col gap-4 w-9/12 p-3 mb-6">
   <!-- Stoic -->
-  <div class="flex flex-row gap-4 w-full" style="border: 1px solid red; padding: 5px">
+  <div class="flex flex-row gap-4 w-full" style="border: 1px solid gray; padding: 5px">
     <button on:click={() => connect("stoic")}>
       <img class="h-10 w-10" src={stoic} alt="Stoic Connect">
     </button>
@@ -142,7 +142,7 @@
   </div>
 
   <!-- Plug -->
-  <div class="flex flex-row gap-4 w-full" style="border: 1px solid red; padding: 5px">
+  <div class="flex flex-row gap-4 w-full" style="border: 1px solid gray; padding: 5px">
     <button on:click={() => connect("plug")}>
       <img class="h-10 w-10" src={plug} alt="Plug Connect">
     </button>
@@ -173,7 +173,7 @@
   </div>
 
   <!-- Bitfinity -->
-  <div class="flex flex-row gap-4 w-full" style="border: 1px solid red; padding: 5px">
+  <div class="flex flex-row gap-4 w-full" style="border: 1px solid gray; padding: 5px">
     <button on:click={() => connect("bitfinity")}>
       <img class="h-10 w-10" src={bitfinity} alt="Bitfinity Connect">
     </button>
@@ -204,7 +204,7 @@
   </div>
 
   <!-- Seed -->
-  <div class="flex flex-row gap-4 w-full" style="border: 1px solid red; padding: 5px">
+  <div class="flex flex-row gap-4 w-full" style="border: 1px solid gray; padding: 5px">
     <button on:click={() => connect("seed")}>
       <img class="h-10 w-10" src={seed} alt="Seed Connect">
     </button>

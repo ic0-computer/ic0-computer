@@ -3,11 +3,6 @@
   import { state } from "../libs/store";
   import { onMount } from "svelte";
 
-  function sendMessageToExtension() {
-    const requestInfo = { text: "hi you" };
-    window.postMessage({ source: "dataaccessgateway-agent", payload: requestInfo }, "*");
-  }
-
   onMount(() => {
     $state.page = "Exchange";
   })
@@ -17,5 +12,3 @@
 <div class="p-6">
   <Loader type="stretch" />
 </div>
-
-<button on:click={sendMessageToExtension}>Click Me</button>

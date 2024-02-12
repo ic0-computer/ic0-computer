@@ -23,7 +23,7 @@
 </div>
 
 <div class="flex items-center">
-  <button class="btn btn-glass btn-outline"><a href="/subsidiary" use:link>Update Subsidiaries <class class="text-primary">↗</class></a></button>
+  <button class="btn btn-outline"><a href="/subsidiary" use:link>Update Subsidiaries <class class="text-primary">↗</class></a></button>
 </div>
 
 </div>
