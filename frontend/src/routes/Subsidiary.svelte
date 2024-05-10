@@ -9,6 +9,7 @@
   import bitfinity from "../assets/bitfinity.png";
   import plug from "../assets/plug.svg";
   import seed from "../assets/seed.png";
+  import computr from "../assets/computr.png";
   import { setProfileData } from "../libs/authOperations.js";
 
   // Lifecycle hook
@@ -17,11 +18,17 @@
   });
 
   // Listen for messages from the extension
-  window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'FROM_EXTENSION') {
-      console.log("Received message from the extension:", event.data.data);
-    }
-  });
+  const callComputr = async () => {
+    window.postMessage({ source: "dataaccessgateway-agent", payload: { 
+      text: "hi you",
+      idl: idlFactory,
+      call: {  Confirm: {
+        primary: Principal.fromText($identity.principal),
+        wallet: { Seed : null },
+      } }
+    }}, "*")
+
+  };
 
   // Utility function to update store
   const updateStore = () => {
@@ -235,4 +242,12 @@
       {/if}
     </div>
   </div>
+
+  <!-- Computr -->
+  <div class="flex flex-row gap-4 w-full" style="border: 1px solid gray; padding: 5px">
+    <button on:click={callComputr}>
+      <img class="h-10 w-10" src={computr} alt="Computr Connect">
+    </button>
+  </div>
+
 </div>
